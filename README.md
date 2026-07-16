@@ -187,6 +187,7 @@ MIT — free to use, modify, and distribute.
 
 Made by **2GOSOO AI LAB** — AI education for everyone, from beginners to builders.  
 YouTube: [2고수클래스](https://www.youtube.com/@2gosooclass)  
-Website: [2gosoo.com](https://2gosoo.com)
+Website: [2gosoo.com](https://2gosoo.com)  
+Prompt Library: [2GOSOO AI Prompt Lab](https://2gosooaipromptlab.com)
 
 *If this saved you time, a ⭐ helps others find it.*
