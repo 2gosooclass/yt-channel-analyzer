@@ -1,0 +1,13 @@
+# Secrets — NEVER commit these
+.env
+client_secret.json
+token.json
+
+# Auto-generated reports
+reports/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
