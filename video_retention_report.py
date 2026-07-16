@@ -61,13 +61,17 @@ def get_credentials():
     return creds
 
 
-def get_video_meta(youtube_data, video_id: str) -> dict:
+def get_video_meta(youtube_data, video_id):
     resp = youtube_data.videos().list(part="snippet,contentDetails", id=video_id).execute()
     items = resp.get("items", [])
     if not items:
         return {}
     sn = items[0]["snippet"]
-    return {"title": sn.get("title"), "published_at": sn.get("publishedAt", "")[:10]}
+    return {
+        "title": sn.get("title"),
+        "published_at": sn.get("publishedAt", "")[:10],
+        "channel_id": sn.get("channelId")
+    }
 
 
 def get_overview_metrics(youtube_analytics, channel_id, video_id, start, end):
@@ -121,9 +125,7 @@ def main():
     youtube_data = build("youtube", "v3", credentials=creds)
     youtube_analytics = build("youtubeAnalytics", "v2", credentials=creds)
 
-    # 내 채널 ID 자동 조회
-    ch_resp = youtube_data.channels().list(part="id", mine=True).execute()
-    channel_id = ch_resp["items"][0]["id"]
+    # 내 채널 ID는 영상 메타데이터에서 동적으로 자동 추출합니다.
 
     end = datetime.date.today().isoformat()
     start = "2020-01-01"  # 게시 이후 전체 기간
@@ -133,6 +135,10 @@ def main():
 
     for video_id in sys.argv[1:]:
         meta = get_video_meta(youtube_data, video_id)
+        channel_id = meta.get("channel_id")
+        if not channel_id:
+            print(f"[에러] {video_id} 영상의 채널 ID를 찾을 수 없습니다.")
+            continue
         overview = get_overview_metrics(youtube_analytics, channel_id, video_id, start, end)
         retention = get_retention_curve(youtube_analytics, channel_id, video_id, start, end)
         traffic = get_traffic_sources(youtube_analytics, channel_id, video_id, start, end)
