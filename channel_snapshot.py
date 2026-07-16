@@ -22,6 +22,7 @@ import os
 import csv
 import datetime
 from pathlib import Path
+from typing import Optional, Dict
 
 try:
     from dotenv import load_dotenv
@@ -45,7 +46,7 @@ if not API_KEY:
 youtube = build("youtube", "v3", developerKey=API_KEY)
 
 
-def resolve_channel_id(handle_or_id: str) -> str | None:
+def resolve_channel_id(handle_or_id: str) -> Optional[str]:
     """@handle 이든 UCxxxx 채널ID든 받아서 채널ID로 변환"""
     if handle_or_id.startswith("UC") and len(handle_or_id) == 24:
         return handle_or_id
@@ -71,7 +72,7 @@ def resolve_channel_id(handle_or_id: str) -> str | None:
     return None
 
 
-def get_channel_stats(channel_id: str) -> dict | None:
+def get_channel_stats(channel_id: str) -> Optional[dict]:
     resp = youtube.channels().list(
         part="snippet,statistics",
         id=channel_id
