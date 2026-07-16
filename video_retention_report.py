@@ -56,7 +56,7 @@ def get_credentials():
                       f"OAuth 클라이언트(Desktop app) 만들고 client_secret.json으로 저장하세요.")
                 sys.exit(1)
             flow = InstalledAppFlow.from_client_secrets_file(str(CLIENT_SECRET_FILE), SCOPES)
-            creds = flow.run_local_server(port=0, host="0.0.0.0")
+            creds = flow.run_local_server(port=8085)
         TOKEN_FILE.write_text(creds.to_json())
     return creds
 
