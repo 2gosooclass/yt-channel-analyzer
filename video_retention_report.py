@@ -75,7 +75,7 @@ def get_overview_metrics(youtube_analytics, channel_id, video_id, start, end):
         ids=f"channel=={channel_id}",
         startDate=start,
         endDate=end,
-        metrics="views,averageViewDuration,averageViewPercentage,impressions,impressionsClickThroughRate",
+        metrics="views,averageViewDuration,averageViewPercentage",
         filters=f"video=={video_id}",
     ).execute()
     rows = resp.get("rows")
@@ -140,9 +140,7 @@ def main():
         print(f"\n=== {meta.get('title', video_id)} ({meta.get('published_at', '?')}) ===")
         print(f"조회수: {overview.get('views')}  "
               f"평균시청(초): {overview.get('averageViewDuration')}  "
-              f"평균시청비율(%): {overview.get('averageViewPercentage')}  "
-              f"노출수: {overview.get('impressions')}  "
-              f"CTR(%): {overview.get('impressionsClickThroughRate')}")
+              f"평균시청비율(%): {overview.get('averageViewPercentage')}")
 
         print("\n[트래픽 소스]")
         for r in traffic:
